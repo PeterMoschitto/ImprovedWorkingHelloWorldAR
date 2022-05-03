@@ -110,7 +110,7 @@ function initialize()
 	let loader = new THREE.TextureLoader();
 	let texture = loader.load( 'images/border.png', render );
 		
-
+//Cubes are defined (113-162)
 		markerRootA = new THREE.Group();
 		scene.add(markerRootA);
 		let markerControlsA = new THREEx.ArMarkerControls(arToolkitContext, markerRootA, {
@@ -159,6 +159,7 @@ function initialize()
 
 	// interpolates from last position to create smoother transitions when moving.
 	// parameter lerp values near 0 are slow, near 1 are fast (instantaneous).
+	//Logic for combining colors(169-185)
 		let smoothedRoot = new THREE.Group();
 		scene.add(smoothedRoot);
 		smoothedControls = new THREEx.ArSmoothedControls(smoothedRoot, {
@@ -182,10 +183,13 @@ function initialize()
 
 function update()
 {
+	
 	// Change Kanji cube color if other markers are visible
 	visA = markerRootA.visible
 	visB = markerRootB.visible
 	visC = markerRootC.visible
+	if ( visA == true  && visB == false && visC == false)
+		meshKanji.SphereGeometry(5, 32, 32);
 	if ( visA == false && visB == false && visC == false)
 		meshKanji.material.color.setHex ( 0xeeeeee );
 	if ( visA == true && visB == false && visC == false)
