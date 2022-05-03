@@ -170,7 +170,7 @@ function initialize()
 			 minUnvisibleDelay: 0.5,
 		});
 
-		let geometryKanji = new THREE.CubeGeometry(1.25, 1.25, 1.25);
+		let geometryKanji = new THREE.SphereGeometry(5,32,32);
 		let materialKanji = new THREE.MeshBasicMaterial({color:0xeeeeee, map:texture, transparent:true, opacity:0.5}); 
 		meshKanji = new THREE.Mesh( geometryKanji, materialKanji ); 
 	
@@ -188,8 +188,8 @@ function update()
 	visA = markerRootA.visible
 	visB = markerRootB.visible
 	visC = markerRootC.visible
-	if ( visA == true  && visB == false && visC == false)
-		meshKanji.SphereGeometry(5, 32, 32);
+// 	if ( visA == true  && visB == false && visC == false)
+// 		meshKanji.SphereGeometry(5, 32, 32);
 	if ( visA == false && visB == false && visC == false)
 		meshKanji.material.color.setHex ( 0xeeeeee );
 	if ( visA == true && visB == false && visC == false)
