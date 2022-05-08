@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-	<title>Hello, AR Cubes! v0.3</title>
+	<title>Hello, AR Cubes! v0.8</title>
 	<!-- include three.js library -->
 	<script src='js/three.js'></script>
 	<!-- include jsartookit -->
@@ -29,9 +29,13 @@ var scene, camera, renderer, clock, deltaTime, totalTime;
 
 var arToolkitSource, arToolkitContext, smoothedControls;
 
-var markerRootA, markerRootB, markerRootC, markerRootKanji;
+var markerRootA, markerRootB, markerRootC, markerRootD, markerRootKanji;
 
-var meshA, meshB, meshC, meshKanji;
+var meshA, meshB, meshC, meshD, meshKanji;
+	
+var grey = 0xeeeeee, red = 0xff0000, green = 0x00ff00, blue = 0x0000ff;
+
+var scale = 1.25;
 
 initialize();
 animate();
@@ -110,7 +114,7 @@ function initialize()
 	let loader = new THREE.TextureLoader();
 	let texture = loader.load( 'images/border.png', render );
 		
-//Cubes are defined (113-162)
+
 		markerRootA = new THREE.Group();
 		scene.add(markerRootA);
 		let markerControlsA = new THREEx.ArMarkerControls(arToolkitContext, markerRootA, {
@@ -119,7 +123,7 @@ function initialize()
 	
 		let meshA = new THREE.Mesh( 
 			new THREE.PlaneGeometry(1.3,1.3), 
-			new THREE.MeshBasicMaterial({color:0xFF0000, map:texture, transparent:false}) 
+			new THREE.MeshBasicMaterial({color:red, map:texture, transparent:false}) 
 		);
 		meshA.rotation.x = -Math.PI/2;
 		markerRootA.add( meshA );
@@ -132,7 +136,7 @@ function initialize()
 	
 		let meshB = new THREE.Mesh( 
 			new THREE.PlaneGeometry(1.3,1.3), 
-			new THREE.MeshBasicMaterial({color:0x0000FF, map:texture, transparent:false}) 
+			new THREE.MeshBasicMaterial({color:blue, map:texture, transparent:false}) 
 		);
 		meshB.rotation.x = -Math.PI/2;
 		markerRootB.add( meshB );
@@ -145,10 +149,23 @@ function initialize()
 	
 		let meshC = new THREE.Mesh( 
 			new THREE.PlaneGeometry(1.3,1.3), 
-			new THREE.MeshBasicMaterial({color:0x00FF00, map:texture, transparent:false}) 
+			new THREE.MeshBasicMaterial({color:green, map:texture, transparent:false}) 
 		);
 		meshC.rotation.x = -Math.PI/2;
 		markerRootC.add( meshC );
+	
+		markerRootD = new THREE.Group();
+		scene.add(markerRootD);
+		let markerControlsD = new THREEx.ArMarkerControls(arToolkitContext, markerRootD, {
+			type : 'pattern', patternUrl : "data/letterD.patt" ,
+		});
+	
+		let meshD = new THREE.Mesh( 
+			new THREE.PlaneGeometry(1.3,1.3), 
+			new THREE.MeshBasicMaterial({color:grey, map:texture, transparent:false}) 
+		);
+		meshD.rotation.x = -Math.PI/2;
+		markerRootD.add( meshD );
 
 		markerRootKanji = new THREE.Group();
 		scene.add(markerRootKanji);
@@ -159,7 +176,6 @@ function initialize()
 
 	// interpolates from last position to create smoother transitions when moving.
 	// parameter lerp values near 0 are slow, near 1 are fast (instantaneous).
-	//Logic for combining colors(169-185)
 		let smoothedRoot = new THREE.Group();
 		scene.add(smoothedRoot);
 		smoothedControls = new THREEx.ArSmoothedControls(smoothedRoot, {
@@ -170,11 +186,12 @@ function initialize()
 			 minUnvisibleDelay: 0.5,
 		});
 
-		let geometryKanji = new THREE.SphereGeometry(1,32,32);
-		let materialKanji = new THREE.MeshBasicMaterial({color:0xeeeeee, map:texture, transparent:true, opacity:0.5}); 
+		let geometryKanji = new THREE.CubeGeometry(1, 1, 1);
+		let materialKanji = new THREE.MeshBasicMaterial({color:grey, map:texture, transparent:true, opacity:0.5}); 
 		meshKanji = new THREE.Mesh( geometryKanji, materialKanji ); 
 	
 		meshKanji.position.y = 1.25/2;
+		meshKanji.scale.set ( scale, scale, scale )
 		// markerRootKanji.add( meshKanji );
 		smoothedRoot.add( meshKanji );
 
@@ -183,29 +200,35 @@ function initialize()
 
 function update()
 {
-	
 	// Change Kanji cube color if other markers are visible
 	visA = markerRootA.visible
 	visB = markerRootB.visible
 	visC = markerRootC.visible
-// 	if ( visA == true  && visB == false && visC == false)
-// 		meshKanji.SphereGeometry(5, 32, 32);
 	if ( visA == false && visB == false && visC == false)
-		meshKanji.material.color.setHex ( 0xeeeeee );
+		meshKanji.material.color.setHex ( grey );
 	if ( visA == true && visB == false && visC == false)
-		meshKanji.material.color.setHex ( 0xff0000 );
+		meshKanji.material.color.setHex ( red );
 	if ( visA == false && visB == true && visC == false)
-		meshKanji.material.color.setHex ( 0x0000ff );
+		meshKanji.material.color.setHex ( blue );
 	if ( visA == false && visB == false && visC == true)
-		meshKanji.material.color.setHex ( 0x00ff00 );		
+		meshKanji.material.color.setHex ( green );		
 	if ( visA == true && visB == true && visC == false)
-		meshKanji.material.color.setHex ( 0xff00ff );
+		meshKanji.material.color.setHex ( red + blue );
 	if ( visA == true && visB == false && visC == true)
-		meshKanji.material.color.setHex ( 0xffff00 );
+		meshKanji.material.color.setHex ( red + green );
 	if ( visA == false && visB == true && visC == true)
-		meshKanji.material.color.setHex ( 0x00ffff );
+		meshKanji.material.color.setHex ( green + blue );
 	if ( visA == true && visB == true && visC == true)
-		meshKanji.material.color.setHex ( 0xffffff );
+		meshKanji.material.color.setHex ( red + blue + green );
+	
+	// Change scale if marker is visible
+	visScale = markerRootD.visible
+	if ( visScale == true)
+		scale = 2;
+	if ( visScale == false)
+		scale = 1.25;
+	meshKanji.scale.set ( scale, scale, scale )
+	
 	// update artoolkit on every frame
 	if ( arToolkitSource.ready !== false )
 		arToolkitContext.update( arToolkitSource.domElement );
