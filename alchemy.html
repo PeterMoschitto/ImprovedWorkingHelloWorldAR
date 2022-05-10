@@ -29,9 +29,9 @@ var scene, camera, renderer, clock, deltaTime, totalTime;
 
 var arToolkitSource, arToolkitContext, smoothedControls;
 
-var markerRootA, markerRootB, markerRootC, markerRootCircle, markerRootKanji;
+var markerRootA, markerRootB, markerRootC, /*markerRootCircle*/, markerRootF, markerRootKanji;
 
-var meshA, meshB, meshC, meshCircle, meshKanji;
+var meshA, meshB, meshC, /*meshCircle*/, markerRootF, meshKanji;
 
 initialize();
 animate();
@@ -150,19 +150,36 @@ function initialize()
 		meshC.rotation.x = -Math.PI/2;
 		markerRootC.add( meshC );
 	
+		
+		/* Trying to add circle marker
 		markerRootCircle = new THREE.Group();
 		scene.add(markerRootCircle);
 		let markerControlsCircle = new THREEx.ArMarkerControls(arToolkitContext, markerRootCircle, {
 			type : 'pattern', patternUrl : "data/Black_Circle.jpg" ,
 		});
 	
-		let meshD = new THREE.Mesh( 
+		let meshCircle = new THREE.Mesh( 
 			new THREE.PlaneGeometry(1.3,1.3), 
 			new THREE.MeshBasicMaterial({color:grey, map:texture, transparent:false}) 
 		);
-		meshD.rotation.x = -Math.PI/2;
-		markerRootD.add( meshD );
-
+		meshCircle.rotation.x = -Math.PI/2;
+		markerRootCircle.add( meshCircle );
+		*/
+	
+		markerRootF = new THREE.Group();
+		scene.add(markerRootF);
+		let markerControlsF = new THREEx.ArMarkerControls(arToolkitContext, markerRootD, {
+			type : 'pattern', patternUrl : "data/letterF.patt" ,
+		});
+	
+		let meshF = new THREE.Mesh( 
+			new THREE.PlaneGeometry(1.3,1.3), 
+			new THREE.MeshBasicMaterial({color:grey, map:texture, transparent:false}) 
+		);
+		meshF.rotation.x = -Math.PI/2;
+		markerRootF.add( meshF );
+	
+	
 		markerRootKanji = new THREE.Group();
 		scene.add(markerRootKanji);
 
@@ -220,13 +237,18 @@ function update()
 	if ( visA == true && visB == true && visC == true)
 		meshKanji.material.color.setHex ( 0xffffff );
 	
-	//testing if new marker works
+	/*//testing if new Circle marker works
 	visCircle = markerRootCircle.visible
 	if ( visCircle == true)
 		meshKanji.material.colo.setHex ( 0xffffff );
 	if ( visCircle == false)
 		meshKanji.material.colo.setHex ( 0xeeeeee );
-
+	*/
+	
+	if ( visF == true)
+		meshKanji.SphereGeometry(5, 32, 32);
+	if ( visF != true)
+		meshKanji.CubeGeometry(1, 1, 1);
 	
 	// update artoolkit on every frame
 	if ( arToolkitSource.ready !== false )
