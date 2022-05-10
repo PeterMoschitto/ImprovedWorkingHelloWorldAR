@@ -246,10 +246,11 @@ function update()
 		meshKanji.material.colo.setHex ( 0xeeeeee );
 	*/
 	
-// 	if ( visF == true)
-// 		meshKanji.SphereGeometry(5, 32, 32);
-// 	if ( visF != true)
-// 		meshKanji.CubeGeometry(1, 1, 1);
+	if ( visF == true)
+		meshKanji.SphereGeometry(5, 32, 32);
+	if ( visF != true)
+		meshKanji.CubeGeometry(1, 1, 1);
+	
 	
 	// update artoolkit on every frame
 	if ( arToolkitSource.ready !== false )
