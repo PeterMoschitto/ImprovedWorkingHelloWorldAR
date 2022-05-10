@@ -29,9 +29,9 @@ var scene, camera, renderer, clock, deltaTime, totalTime;
 
 var arToolkitSource, arToolkitContext, smoothedControls;
 
-var markerRootA, markerRootB, markerRootC, /*markerRootCircle*//*, markerRootF*/ markerRootKanji;
+var markerRootA, markerRootB, markerRootC, /*markerRootCircle*/ markerRootF, markerRootKanji;
 
-var meshA, meshB, meshC, /*meshCircle*//*, meshF*/ meshKanji;
+var meshA, meshB, meshC, /*meshCircle*/ meshF, meshKanji;
 
 initialize();
 animate();
@@ -166,7 +166,7 @@ function initialize()
 		markerRootCircle.add( meshCircle );
 		*/
 		
-		/*
+		
 		markerRootF = new THREE.Group();
 		scene.add(markerRootF);
 		let markerControlsF = new THREEx.ArMarkerControls(arToolkitContext, markerRootF, {
@@ -179,7 +179,7 @@ function initialize()
 		);
 		meshF.rotation.x = -Math.PI/2;
 		markerRootF.add( meshF );
-		*/
+		
 	
 		markerRootKanji = new THREE.Group();
 		scene.add(markerRootKanji);
@@ -201,7 +201,7 @@ function initialize()
 			 minUnvisibleDelay: 0.5,
 		});
 
-		let geometryKanji = new THREE.SphereGeometry(1,32,32);
+		let geometryKanji = new THREE.CubeGeometry(1,32,32);
 		let materialKanji = new THREE.MeshBasicMaterial({color:0xeeeeee, map:texture, transparent:true, opacity:0.5}); 
 		meshKanji = new THREE.Mesh( geometryKanji, materialKanji ); 
 	
