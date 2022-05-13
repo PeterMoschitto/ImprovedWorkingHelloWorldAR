@@ -167,18 +167,18 @@ function initialize()
 		*/
 		
 		
-		markerRootF = new THREE.Group();
-		scene.add(markerRootF);
-		let markerControlsF = new THREEx.ArMarkerControls(arToolkitContext, markerRootF, {
-			type : 'pattern', patternUrl : "data/letterF.patt" ,
-		});
+// 		markerRootF = new THREE.Group();
+// 		scene.add(markerRootF);
+// 		let markerControlsF = new THREEx.ArMarkerControls(arToolkitContext, markerRootF, {
+// 			type : 'pattern', patternUrl : "data/letterF.patt" ,
+// 		});
 	
-		let meshF = new THREE.Mesh( 
-			new THREE.PlaneGeometry(1.3,1.3), 
-			new THREE.MeshBasicMaterial({color:grey, map:texture, transparent:false}) 
-		);
-		meshF.rotation.x = -Math.PI/2;
-		markerRootF.add( meshF );
+// 		let meshF = new THREE.Mesh( 
+// 			new THREE.PlaneGeometry(1.3,1.3), 
+// 			new THREE.MeshBasicMaterial({color:grey, map:texture, transparent:false}) 
+// 		);
+// 		meshF.rotation.x = -Math.PI/2;
+// 		markerRootF.add( meshF );
 		
 	
 		markerRootKanji = new THREE.Group();
